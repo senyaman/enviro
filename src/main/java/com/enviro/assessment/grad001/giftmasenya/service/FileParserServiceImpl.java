@@ -27,6 +27,7 @@ public class FileParserServiceImpl implements FileParserService {
 
         String name = null;
         String surname = null;
+        String imageData = null;
 
         Reader in = new FileReader(csvFile);
         Iterable<CSVRecord> records =  CSVFormat.DEFAULT
@@ -39,10 +40,14 @@ public class FileParserServiceImpl implements FileParserService {
         for(CSVRecord record : records) {
             name = record.get("name");
             surname = record.get("surname");
+            imageData = record.get("imageData");
+
+            URI imageLink = createImageLink(convertCSVDataToImage(imageData));
 
             AccountProfile accountProfile = AccountProfile.builder()
                     .accountHolderName(name)
                     .accountHolderSurname(surname)
+                    .httpImageLink(imageLink)
                     .build();
 
             accountProfileRepository.save(accountProfile);
@@ -93,9 +98,6 @@ public class FileParserServiceImpl implements FileParserService {
 
     @Override
     public URI createImageLink(File fileImage) {
-        URI uri = fileImage.toURI();
-        AccountProfile accountProfile = AccountProfile.builder().httpImageLink(uri).build();
-        accountProfileRepository.save(accountProfile);
-        return uri;
+        return fileImage.toURI();
     }
 }
