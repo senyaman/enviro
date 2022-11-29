@@ -21,6 +21,7 @@ public class ImageController {
     @GetMapping(value = "/{name}/{surname}")
     public FileSystemResource getHttpImageLink(@PathVariable String name, @PathVariable String surname) throws IOException {
         fileParserService.parseCSV(AppConstants.FILE);
+
         return null;
     }
 }
