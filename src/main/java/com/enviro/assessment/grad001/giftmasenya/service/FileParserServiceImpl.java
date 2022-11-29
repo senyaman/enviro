@@ -93,6 +93,9 @@ public class FileParserServiceImpl implements FileParserService {
 
     @Override
     public URI createImageLink(File fileImage) {
-        return null;
+        URI uri = fileImage.toURI();
+        AccountProfile accountProfile = AccountProfile.builder().httpImageLink(uri).build();
+        accountProfileRepository.save(accountProfile);
+        return uri;
     }
 }
